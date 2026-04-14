@@ -36,7 +36,7 @@ export function HeroSection({ counters }: HeroSectionProps) {
 
         {/* Subtitle */}
         <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-12 text-pretty leading-relaxed">
-          You just watched how the world can change.
+          You just watched Penn Dhamaka show you how to change the world.
           <br />
           Now help us change its future—in <span className="text-primary font-semibold">30 seconds</span>.
         </p>
