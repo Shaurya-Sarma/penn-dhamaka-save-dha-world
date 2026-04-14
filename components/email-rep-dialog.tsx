@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Loader2, Mail, MapPin, AlertCircle, CheckCircle2, Copy, ExternalLink, Phone } from "lucide-react"
+import { Loader2, Mail, MapPin, AlertCircle, CheckCircle2, Copy, Phone, Users } from "lucide-react"
 
 interface Representative {
   name: string
@@ -120,12 +120,6 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
     }
   }
 
-  const openRepWebsite = () => {
-    if (selectedRep?.website) {
-      window.open(selectedRep.website, "_blank")
-    }
-  }
-
   const openGmail = () => {
     const { subject, body } = getPersonalizedEmail()
     // Gmail compose URL without "to" - user will need to get email from rep's website
@@ -216,30 +210,38 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
               </DialogDescription>
             </DialogHeader>
             
-            <div className="flex flex-col gap-2 py-4 max-h-[280px] overflow-y-auto pr-1">
-              {representatives.map((rep, index) => (
-                <button
-                  key={index}
-                  onClick={() => selectRepresentative(rep)}
-                  className="flex flex-col items-start gap-1.5 p-4 rounded-lg border border-border bg-card hover:bg-accent/10 hover:border-secondary/50 transition-colors text-left w-full"
-                >
-                  <span className="font-semibold text-foreground">{rep.name}</span>
-                  <span className="text-sm text-muted-foreground">{rep.office}</span>
-                  {rep.phone && (
-                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                      <Phone className="w-3 h-3 shrink-0" />
-                      {rep.phone}
-                    </span>
-                  )}
-                  {rep.website && (
-                    <span className="flex items-center gap-1.5 text-xs text-secondary">
-                      <ExternalLink className="w-3 h-3 shrink-0" />
-                      Official Website
-                    </span>
-                  )}
-                </button>
-              ))}
-            </div>
+            {representatives.length === 0 ? (
+              <div className="flex flex-col items-center gap-4 py-8 text-center">
+                <div className="rounded-full bg-muted p-3">
+                  <Users className="w-6 h-6 text-muted-foreground" />
+                </div>
+                <div>
+                  <p className="font-medium text-foreground mb-1">No representatives found</p>
+                  <p className="text-sm text-muted-foreground">
+                    We couldn&apos;t find representatives for zip code {zipCode}. Please try a different zip code.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 py-4 max-h-[280px] overflow-y-auto pr-1">
+                {representatives.map((rep, index) => (
+                  <button
+                    key={index}
+                    onClick={() => selectRepresentative(rep)}
+                    className="flex flex-col items-start gap-1.5 p-4 rounded-lg border border-border bg-card hover:bg-accent/10 hover:border-secondary/50 transition-colors text-left w-full"
+                  >
+                    <span className="font-semibold text-foreground">{rep.name}</span>
+                    <span className="text-sm text-muted-foreground">{rep.office}</span>
+                    {rep.phone && (
+                      <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                        <Phone className="w-3 h-3 shrink-0" />
+                        {rep.phone}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
             
             <DialogFooter className="pt-2">
               <Button variant="ghost" onClick={() => setStep("zip")} className="w-full text-muted-foreground">
@@ -272,17 +274,6 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                     {selectedRep.phone}
                   </p>
                 )}
-                {selectedRep.website && (
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={openRepWebsite}
-                    className="mt-3 w-full"
-                  >
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Visit Official Website
-                  </Button>
-                )}
               </div>
 
               <div className="flex flex-col gap-1.5">
@@ -307,7 +298,7 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
               </div>
 
               <p className="text-xs text-muted-foreground text-center">
-                Copy the message and paste it into the contact form on the official website, or open it in Gmail.
+                Copy the message and send it via Gmail, or paste it into your representative&apos;s contact form.
               </p>
             </div>
             
