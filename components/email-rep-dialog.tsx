@@ -11,14 +11,15 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Loader2, Mail, MapPin, AlertCircle, CheckCircle2, Copy } from "lucide-react"
+import { Loader2, Mail, MapPin, AlertCircle, CheckCircle2, Copy, ExternalLink, Phone } from "lucide-react"
 
 interface Representative {
   name: string
   office: string
   party?: string
-  emails?: string[]
-  phones?: string[]
+  website?: string
+  phone?: string
+  officeAddress?: string
 }
 
 interface EmailRepDialogProps {
@@ -106,32 +107,37 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
   }
 
   const getPersonalizedEmail = () => {
-    if (!selectedRep) return { to: "", subject: "", body: "" }
+    if (!selectedRep) return { subject: "", body: "" }
     
-    const recipientEmail = selectedRep.emails?.[0] || ""
     const emailBody = getEmailBody(selectedRep.name)
     const personalizedBody = emailBody
       .replace("[Your Name]", userName || "[Your Name]")
       .replace("[Zip Code]", zipCode)
     
     return {
-      to: recipientEmail,
       subject: EMAIL_SUBJECT,
       body: personalizedBody
     }
   }
 
+  const openRepWebsite = () => {
+    if (selectedRep?.website) {
+      window.open(selectedRep.website, "_blank")
+    }
+  }
+
   const openGmail = () => {
-    const { to, subject, body } = getPersonalizedEmail()
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    const { subject, body } = getPersonalizedEmail()
+    // Gmail compose URL without "to" - user will need to get email from rep's website
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     window.open(gmailUrl, "_blank")
     onEmailSent()
     handleOpenChange(false)
   }
 
   const copyEmailContent = async () => {
-    const { to, subject, body } = getPersonalizedEmail()
-    const fullContent = `To: ${to}\nSubject: ${subject}\n\n${body}`
+    const { subject, body } = getPersonalizedEmail()
+    const fullContent = `Subject: ${subject}\n\n${body}`
     
     try {
       await navigator.clipboard.writeText(fullContent)
@@ -219,10 +225,16 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                 >
                   <span className="font-medium text-foreground">{rep.name}</span>
                   <span className="text-sm text-muted-foreground">{rep.office}</span>
-                  {rep.emails && rep.emails.length > 0 && (
+                  {rep.phone && (
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Phone className="w-3 h-3" />
+                      {rep.phone}
+                    </span>
+                  )}
+                  {rep.website && (
                     <span className="flex items-center gap-1 text-xs text-secondary">
-                      <Mail className="w-3 h-3" />
-                      {rep.emails[0]}
+                      <ExternalLink className="w-3 h-3" />
+                      Official Website
                     </span>
                   )}
                 </button>
@@ -245,11 +257,36 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                 Ready to Send
               </DialogTitle>
               <DialogDescription>
-                Review your message to {selectedRep.name}
+                Contact {selectedRep.name} via their official website or use the pre-written message below.
               </DialogDescription>
             </DialogHeader>
             
             <div className="flex flex-col gap-4 py-4">
+              {/* Contact Info */}
+              <div className="rounded-lg border border-secondary/30 bg-secondary/5 p-3">
+                <p className="text-sm font-medium text-foreground mb-2">{selectedRep.name}</p>
+                <div className="flex flex-col gap-1 text-sm text-muted-foreground">
+                  <span>{selectedRep.office}</span>
+                  {selectedRep.phone && (
+                    <span className="flex items-center gap-1">
+                      <Phone className="w-3 h-3" />
+                      {selectedRep.phone}
+                    </span>
+                  )}
+                </div>
+                {selectedRep.website && (
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={openRepWebsite}
+                    className="mt-2 w-full"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Visit Official Website
+                  </Button>
+                )}
+              </div>
+
               <div className="flex flex-col gap-2">
                 <label htmlFor="userName" className="text-sm font-medium text-foreground">
                   Your Name (optional)
@@ -262,7 +299,7 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                 />
               </div>
               
-              <div className="rounded-lg border border-border bg-muted/30 p-3 max-h-48 overflow-y-auto">
+              <div className="rounded-lg border border-border bg-muted/30 p-3 max-h-40 overflow-y-auto">
                 <p className="text-xs font-medium text-muted-foreground mb-2">Message Preview:</p>
                 <p className="text-sm text-foreground whitespace-pre-line leading-relaxed">
                   {getEmailBody(selectedRep.name)
@@ -270,28 +307,17 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                     .replace("[Zip Code]", zipCode)}
                 </p>
               </div>
+
+              <p className="text-xs text-muted-foreground">
+                Copy the message and paste it into the contact form on your representative&apos;s website, or open it in Gmail.
+              </p>
             </div>
             
             <DialogFooter className="flex-col gap-2 sm:flex-col">
-              <Button 
-                onClick={openGmail}
-                className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Open in Gmail
-              </Button>
               <div className="flex gap-2 w-full">
                 <Button 
-                  variant="outline" 
-                  onClick={() => setStep("select")}
-                  className="flex-1"
-                >
-                  Back
-                </Button>
-                <Button 
-                  variant="outline"
                   onClick={copyEmailContent}
-                  className="flex-1"
+                  className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/90"
                 >
                   {copied ? (
                     <>
@@ -301,11 +327,26 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                   ) : (
                     <>
                       <Copy className="w-4 h-4 mr-2" />
-                      Copy Text
+                      Copy Message
                     </>
                   )}
                 </Button>
+                <Button 
+                  onClick={openGmail}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  <Mail className="w-4 h-4 mr-2" />
+                  Open Gmail
+                </Button>
               </div>
+              <Button 
+                variant="ghost" 
+                onClick={() => setStep("select")}
+                className="w-full"
+              >
+                Back to Representatives
+              </Button>
             </DialogFooter>
           </>
         )}

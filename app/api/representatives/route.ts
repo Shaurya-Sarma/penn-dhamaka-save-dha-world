@@ -4,26 +4,22 @@ interface Representative {
   name: string
   office: string
   party?: string
-  emails?: string[]
-  phones?: string[]
+  website?: string
+  phone?: string
+  officeAddress?: string
 }
 
-interface CivicApiOfficial {
+interface WhoIsMyRepResult {
   name: string
-  party?: string
-  emails?: string[]
-  phones?: string[]
+  state: string
+  district?: string
+  phone: string
+  office: string
+  link: string
 }
 
-interface CivicApiOffice {
-  name: string
-  officialIndices: number[]
-}
-
-interface CivicApiResponse {
-  offices?: CivicApiOffice[]
-  officials?: CivicApiOfficial[]
-  error?: { message: string }
+interface WhoIsMyRepResponse {
+  results?: WhoIsMyRepResult[]
 }
 
 export async function GET(request: Request) {
@@ -37,88 +33,84 @@ export async function GET(request: Request) {
     )
   }
 
-  const apiKey = process.env.GOOGLE_CIVIC_API_KEY
-
-  // If no API key, return sample data for demo purposes
-  if (!apiKey) {
-    return NextResponse.json({
-      representatives: getSampleRepresentatives(zipCode),
-      note: "Demo mode - showing sample representatives",
-    })
-  }
-
   try {
+    // Use whoismyrepresentative.com API - free, no API key required
     const response = await fetch(
-      `https://www.googleapis.com/civicinfo/v2/representatives?address=${zipCode}&key=${apiKey}`
+      `https://whoismyrepresentative.com/getall_mems.php?zip=${zipCode}&output=json`,
+      {
+        headers: {
+          "Accept": "application/json",
+        },
+      }
     )
 
-    const data: CivicApiResponse = await response.json()
-
-    if (data.error) {
-      return NextResponse.json(
-        { error: data.error.message },
-        { status: 400 }
-      )
-    }
-
-    const representatives: Representative[] = []
-
-    if (data.offices && data.officials) {
-      for (const office of data.offices) {
-        // Filter to federal and state level representatives
-        if (
-          office.name.includes("Senator") ||
-          office.name.includes("Representative") ||
-          office.name.includes("Congress") ||
-          office.name.includes("Governor")
-        ) {
-          for (const index of office.officialIndices) {
-            const official = data.officials[index]
-            if (official) {
-              representatives.push({
-                name: official.name,
-                office: office.name,
-                party: official.party,
-                emails: official.emails,
-                phones: official.phones,
-              })
-            }
-          }
-        }
-      }
-    }
-
-    // If no representatives found with emails, return sample data
-    if (representatives.length === 0) {
+    if (!response.ok) {
+      // If the API fails, return helpful fallback
       return NextResponse.json({
-        representatives: getSampleRepresentatives(zipCode),
-        note: "No representatives found for this zip code",
+        representatives: getFallbackWithInstructions(zipCode),
+        note: "Could not look up representatives. Use the links below to find your representatives.",
       })
     }
 
+    const text = await response.text()
+    
+    // Handle case where API returns error message instead of JSON
+    if (text.includes("error") || text.includes("No reps found") || !text.startsWith("{")) {
+      return NextResponse.json({
+        representatives: getFallbackWithInstructions(zipCode),
+        note: "No representatives found for this zip code. Use the links below to find your representatives.",
+      })
+    }
+
+    const data: WhoIsMyRepResponse = JSON.parse(text)
+
+    if (!data.results || data.results.length === 0) {
+      return NextResponse.json({
+        representatives: getFallbackWithInstructions(zipCode),
+        note: "No representatives found for this zip code.",
+      })
+    }
+
+    const representatives: Representative[] = data.results.map((rep) => {
+      // Determine if senator or representative based on district
+      const isSenator = !rep.district || rep.district === ""
+      
+      return {
+        name: rep.name,
+        office: isSenator 
+          ? `U.S. Senator (${rep.state})`
+          : `U.S. Representative (${rep.state}-${rep.district})`,
+        website: rep.link,
+        phone: rep.phone,
+        officeAddress: rep.office,
+      }
+    })
+
     return NextResponse.json({ representatives })
-  } catch {
-    return NextResponse.json(
-      { error: "Failed to look up representatives. Please try again." },
-      { status: 500 }
-    )
+  } catch (error) {
+    console.error("Representative lookup error:", error)
+    return NextResponse.json({
+      representatives: getFallbackWithInstructions(zipCode),
+      note: "Failed to look up representatives. Use the links below to find your representatives.",
+    })
   }
 }
 
-function getSampleRepresentatives(zipCode: string): Representative[] {
-  // Return sample representatives for demo purposes
+function getFallbackWithInstructions(zipCode: string): Representative[] {
   return [
     {
-      name: "Your U.S. Senator",
+      name: "Find Your Senator",
       office: "U.S. Senate",
-      emails: [`senator@senate.gov`],
-      party: "Unknown",
+      website: "https://www.senate.gov/senators/senators-contact.htm",
+      phone: "(202) 224-3121",
+      officeAddress: `Look up your senators for zip code ${zipCode}`,
     },
     {
-      name: "Your U.S. Representative",
-      office: `U.S. House of Representatives (${zipCode})`,
-      emails: [`representative@house.gov`],
-      party: "Unknown",
+      name: "Find Your Representative",
+      office: "U.S. House of Representatives",
+      website: "https://www.house.gov/representatives/find-your-representative",
+      phone: "(202) 224-3121",
+      officeAddress: `Look up your representative for zip code ${zipCode}`,
     },
   ]
 }
