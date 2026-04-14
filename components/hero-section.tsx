@@ -33,7 +33,7 @@ export function HeroSection({ counters }: HeroSectionProps) {
             alt="Save Dha World lion logo" 
             className="w-28 h-28 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain mb-4 drop-shadow-2xl"
           />
-          <h1 className="text-5xl md:text-7xl lg:text-8xl tracking-wide text-balance text-center" style={{ fontFamily: 'var(--font-display)' }}>
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance text-center">
             <span className="text-foreground">SAVE </span>
             <span className="text-primary">DHA</span>
             <span className="text-foreground"> WORLD</span>
