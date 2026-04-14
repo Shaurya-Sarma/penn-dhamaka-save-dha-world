@@ -158,7 +158,7 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-[425px] max-h-[90vh] overflow-y-auto">
         {step === "zip" && (
           <>
             <DialogHeader>
@@ -216,24 +216,24 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
               </DialogDescription>
             </DialogHeader>
             
-            <div className="flex flex-col gap-2 py-4 max-h-64 overflow-y-auto">
+            <div className="flex flex-col gap-2 py-4 max-h-[280px] overflow-y-auto pr-1">
               {representatives.map((rep, index) => (
                 <button
                   key={index}
                   onClick={() => selectRepresentative(rep)}
-                  className="flex flex-col items-start gap-1 p-3 rounded-lg border border-border bg-card hover:bg-accent/10 hover:border-secondary/50 transition-colors text-left"
+                  className="flex flex-col items-start gap-1.5 p-4 rounded-lg border border-border bg-card hover:bg-accent/10 hover:border-secondary/50 transition-colors text-left w-full"
                 >
-                  <span className="font-medium text-foreground">{rep.name}</span>
+                  <span className="font-semibold text-foreground">{rep.name}</span>
                   <span className="text-sm text-muted-foreground">{rep.office}</span>
                   {rep.phone && (
-                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <Phone className="w-3 h-3" />
+                    <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                      <Phone className="w-3 h-3 shrink-0" />
                       {rep.phone}
                     </span>
                   )}
                   {rep.website && (
-                    <span className="flex items-center gap-1 text-xs text-secondary">
-                      <ExternalLink className="w-3 h-3" />
+                    <span className="flex items-center gap-1.5 text-xs text-secondary">
+                      <ExternalLink className="w-3 h-3 shrink-0" />
                       Official Website
                     </span>
                   )}
@@ -241,8 +241,8 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
               ))}
             </div>
             
-            <DialogFooter>
-              <Button variant="outline" onClick={() => setStep("zip")}>
+            <DialogFooter className="pt-2">
+              <Button variant="ghost" onClick={() => setStep("zip")} className="w-full text-muted-foreground">
                 Back
               </Button>
             </DialogFooter>
@@ -263,23 +263,21 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
             
             <div className="flex flex-col gap-4 py-4">
               {/* Contact Info */}
-              <div className="rounded-lg border border-secondary/30 bg-secondary/5 p-3">
-                <p className="text-sm font-medium text-foreground mb-2">{selectedRep.name}</p>
-                <div className="flex flex-col gap-1 text-sm text-muted-foreground">
-                  <span>{selectedRep.office}</span>
-                  {selectedRep.phone && (
-                    <span className="flex items-center gap-1">
-                      <Phone className="w-3 h-3" />
-                      {selectedRep.phone}
-                    </span>
-                  )}
-                </div>
+              <div className="rounded-lg border border-secondary/30 bg-secondary/5 p-4">
+                <p className="font-semibold text-foreground mb-1">{selectedRep.name}</p>
+                <p className="text-sm text-muted-foreground mb-2">{selectedRep.office}</p>
+                {selectedRep.phone && (
+                  <p className="flex items-center gap-1.5 text-sm text-muted-foreground">
+                    <Phone className="w-3.5 h-3.5 shrink-0" />
+                    {selectedRep.phone}
+                  </p>
+                )}
                 {selectedRep.website && (
                   <Button 
                     variant="outline" 
                     size="sm" 
                     onClick={openRepWebsite}
-                    className="mt-2 w-full"
+                    className="mt-3 w-full"
                   >
                     <ExternalLink className="w-4 h-4 mr-2" />
                     Visit Official Website
@@ -287,7 +285,7 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                 )}
               </div>
 
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-1.5">
                 <label htmlFor="userName" className="text-sm font-medium text-foreground">
                   Your Name (optional)
                 </label>
@@ -299,7 +297,7 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                 />
               </div>
               
-              <div className="rounded-lg border border-border bg-muted/30 p-3 max-h-40 overflow-y-auto">
+              <div className="rounded-lg border border-border bg-muted/30 p-3 max-h-[140px] overflow-y-auto">
                 <p className="text-xs font-medium text-muted-foreground mb-2">Message Preview:</p>
                 <p className="text-sm text-foreground whitespace-pre-line leading-relaxed">
                   {getEmailBody(selectedRep.name)
@@ -308,16 +306,16 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                 </p>
               </div>
 
-              <p className="text-xs text-muted-foreground">
-                Copy the message and paste it into the contact form on your representative&apos;s website, or open it in Gmail.
+              <p className="text-xs text-muted-foreground text-center">
+                Copy the message and paste it into the contact form on the official website, or open it in Gmail.
               </p>
             </div>
             
-            <DialogFooter className="flex-col gap-2 sm:flex-col">
-              <div className="flex gap-2 w-full">
+            <DialogFooter className="flex flex-col gap-3 pt-2">
+              <div className="grid grid-cols-2 gap-2 w-full">
                 <Button 
                   onClick={copyEmailContent}
-                  className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                  className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
                 >
                   {copied ? (
                     <>
@@ -334,7 +332,6 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                 <Button 
                   onClick={openGmail}
                   variant="outline"
-                  className="flex-1"
                 >
                   <Mail className="w-4 h-4 mr-2" />
                   Open Gmail
@@ -343,7 +340,7 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
               <Button 
                 variant="ghost" 
                 onClick={() => setStep("select")}
-                className="w-full"
+                className="w-full text-muted-foreground"
               >
                 Back to Representatives
               </Button>
