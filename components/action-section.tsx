@@ -1,14 +1,18 @@
 "use client"
 
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { TreePine, Megaphone, Share2, ExternalLink } from "lucide-react"
+import { EmailRepDialog } from "@/components/email-rep-dialog"
 
 interface ActionSectionProps {
   onAction: (type: "trees" | "messages" | "shares") => void
 }
 
 export function ActionSection({ onAction }: ActionSectionProps) {
+  const [emailDialogOpen, setEmailDialogOpen] = useState(false)
+
   const handlePlantTree = () => {
     onAction("trees")
     // Placeholder link - replace with actual donation link
@@ -16,23 +20,11 @@ export function ActionSection({ onAction }: ActionSectionProps) {
   }
 
   const handleSendMessage = () => {
+    setEmailDialogOpen(true)
+  }
+
+  const handleEmailSent = () => {
     onAction("messages")
-    const subject = encodeURIComponent("Support science-based climate action")
-    const body = encodeURIComponent(`Dear Representative,
-
-I'm writing as a constituent to urge your support for practical, science-based solutions to address climate change.
-
-We are already seeing the effects of a changing climate through extreme weather, rising costs, and impacts on our communities. Addressing this issue is not just about the environment—it's about economic stability, public health, and long-term resilience.
-
-I encourage you to support policies that invest in clean energy, strengthen climate resilience, and promote innovation in sustainable technologies.
-
-Thank you for your time and service.
-
-Sincerely,
-[Your Name]
-[Zip Code]`)
-    
-    window.location.href = `mailto:?subject=${subject}&body=${body}`
   }
 
   const handleShare = () => {
@@ -55,6 +47,12 @@ Sincerely,
   }
 
   return (
+    <>
+    <EmailRepDialog 
+      open={emailDialogOpen} 
+      onOpenChange={setEmailDialogOpen}
+      onEmailSent={handleEmailSent}
+    />
     <section
       id="action-section"
       className="py-16 md:py-24 px-4 bg-gradient-to-b from-background to-card/30"
@@ -107,6 +105,7 @@ Sincerely,
         </div>
       </div>
     </section>
+    </>
   )
 }
 
