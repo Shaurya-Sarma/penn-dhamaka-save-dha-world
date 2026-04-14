@@ -311,32 +311,31 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
               </p>
             </div>
             
-            <DialogFooter className="flex flex-col gap-3 pt-2">
-              <div className="grid grid-cols-2 gap-2 w-full">
-                <Button 
-                  onClick={copyEmailContent}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
-                >
-                  {copied ? (
-                    <>
-                      <CheckCircle2 className="w-4 h-4 mr-2" />
-                      Copied!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4 mr-2" />
-                      Copy Message
-                    </>
-                  )}
-                </Button>
-                <Button 
-                  onClick={openGmail}
-                  variant="outline"
-                >
-                  <Mail className="w-4 h-4 mr-2" />
-                  Open Gmail
-                </Button>
-              </div>
+            <DialogFooter className="flex flex-col gap-2 pt-2">
+              <Button 
+                onClick={copyEmailContent}
+                className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
+              >
+                {copied ? (
+                  <>
+                    <CheckCircle2 className="w-4 h-4 mr-2" />
+                    Copied!
+                  </>
+                ) : (
+                  <>
+                    <Copy className="w-4 h-4 mr-2" />
+                    Copy Message
+                  </>
+                )}
+              </Button>
+              <Button 
+                onClick={openGmail}
+                variant="outline"
+                className="w-full"
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Open Gmail
+              </Button>
               <Button 
                 variant="ghost" 
                 onClick={() => setStep("select")}
