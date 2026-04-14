@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Loader2, Mail, MapPin, AlertCircle, CheckCircle2 } from "lucide-react"
+import { Loader2, Mail, MapPin, AlertCircle, CheckCircle2, Copy, ExternalLink } from "lucide-react"
 
 interface Representative {
   name: string
@@ -53,6 +53,7 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
   const [representatives, setRepresentatives] = useState<Representative[]>([])
   const [selectedRep, setSelectedRep] = useState<Representative | null>(null)
   const [userName, setUserName] = useState("")
+  const [copied, setCopied] = useState(false)
 
   const resetDialog = () => {
     setStep("zip")
@@ -62,6 +63,7 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
     setRepresentatives([])
     setSelectedRep(null)
     setUserName("")
+    setCopied(false)
   }
 
   const handleOpenChange = (newOpen: boolean) => {
@@ -103,22 +105,56 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
     setStep("preview")
   }
 
-  const sendEmail = () => {
-    if (!selectedRep) return
-
+  const getPersonalizedEmail = () => {
+    if (!selectedRep) return { to: "", subject: "", body: "" }
+    
     const recipientEmail = selectedRep.emails?.[0] || ""
     const emailBody = getEmailBody(selectedRep.name)
     const personalizedBody = emailBody
       .replace("[Your Name]", userName || "[Your Name]")
       .replace("[Zip Code]", zipCode)
     
-    const subject = encodeURIComponent(EMAIL_SUBJECT)
-    const body = encodeURIComponent(personalizedBody)
-    
-    window.location.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`
-    
+    return {
+      to: recipientEmail,
+      subject: EMAIL_SUBJECT,
+      body: personalizedBody
+    }
+  }
+
+  const openMailto = () => {
+    const { to, subject, body } = getPersonalizedEmail()
+    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     onEmailSent()
     handleOpenChange(false)
+  }
+
+  const openGmail = () => {
+    const { to, subject, body } = getPersonalizedEmail()
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(to)}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.open(gmailUrl, "_blank")
+    onEmailSent()
+    handleOpenChange(false)
+  }
+
+  const copyEmailContent = async () => {
+    const { to, subject, body } = getPersonalizedEmail()
+    const fullContent = `To: ${to}\nSubject: ${subject}\n\n${body}`
+    
+    try {
+      await navigator.clipboard.writeText(fullContent)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch {
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea")
+      textArea.value = fullContent
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand("copy")
+      document.body.removeChild(textArea)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
   }
 
   return (
@@ -243,17 +279,50 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
               </div>
             </div>
             
-            <DialogFooter className="gap-2">
-              <Button variant="outline" onClick={() => setStep("select")}>
-                Back
-              </Button>
-              <Button 
-                onClick={sendEmail}
-                className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
-              >
-                <Mail className="w-4 h-4 mr-2" />
-                Open Email
-              </Button>
+            <DialogFooter className="flex-col gap-2 sm:flex-col">
+              <div className="flex gap-2 w-full">
+                <Button 
+                  onClick={openMailto}
+                  className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                >
+                  <Mail className="w-4 h-4 mr-2" />
+                  Email App
+                </Button>
+                <Button 
+                  onClick={openGmail}
+                  variant="outline"
+                  className="flex-1"
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Gmail
+                </Button>
+              </div>
+              <div className="flex gap-2 w-full">
+                <Button 
+                  variant="outline" 
+                  onClick={() => setStep("select")}
+                  className="flex-1"
+                >
+                  Back
+                </Button>
+                <Button 
+                  variant="outline"
+                  onClick={copyEmailContent}
+                  className="flex-1"
+                >
+                  {copied ? (
+                    <>
+                      <CheckCircle2 className="w-4 h-4 mr-2" />
+                      Copied!
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-4 h-4 mr-2" />
+                      Copy Text
+                    </>
+                  )}
+                </Button>
+              </div>
             </DialogFooter>
           </>
         )}
