@@ -29,18 +29,21 @@ interface EmailRepDialogProps {
 
 const EMAIL_SUBJECT = "Support science-based climate action"
 
-const EMAIL_BODY = `Dear Representative,
+const getEmailBody = (repName: string) => `Dear ${repName},
 
 I'm writing as a constituent to urge your support for practical, science-based solutions to address climate change.
 
-We are already seeing the effects of a changing climate through extreme weather, rising costs, and impacts on our communities. Addressing this issue is not just about the environment—it's about economic stability, public health, and long-term resilience.
+We are already seeing the effects of a changing climate through extreme weather, rising costs, and impacts on our communities. Addressing this issue is not just about the environment—it's about economic stability, public health, and long-term national resilience.
 
-I encourage you to support policies that invest in clean energy, strengthen climate resilience, and promote innovation in sustainable technologies.
+I encourage you to support policies that invest in clean energy, strengthen climate resilience, and promote innovation in sustainable technologies. These solutions can create jobs, reduce long-term costs, and position the United States as a global leader.
+
+This issue matters to me and many others in our community, and I hope it will remain a priority in your work.
 
 Thank you for your time and service.
 
 Sincerely,
-[Your Name]`
+[Your Name]
+[Zip Code]`
 
 export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDialogProps) {
   const [step, setStep] = useState<"zip" | "select" | "preview">("zip")
@@ -104,10 +107,13 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
     if (!selectedRep) return
 
     const recipientEmail = selectedRep.emails?.[0] || ""
-    const personalizedBody = EMAIL_BODY.replace("[Your Name]", userName || "[Your Name]")
+    const emailBody = getEmailBody(selectedRep.name)
+    const personalizedBody = emailBody
+      .replace("[Your Name]", userName || "[Your Name]")
+      .replace("[Zip Code]", zipCode)
     
     const subject = encodeURIComponent(EMAIL_SUBJECT)
-    const body = encodeURIComponent(personalizedBody + `\n[Zip Code: ${zipCode}]`)
+    const body = encodeURIComponent(personalizedBody)
     
     window.location.href = `mailto:${recipientEmail}?subject=${subject}&body=${body}`
     
@@ -230,7 +236,9 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
               <div className="rounded-lg border border-border bg-muted/30 p-3 max-h-48 overflow-y-auto">
                 <p className="text-xs font-medium text-muted-foreground mb-2">Message Preview:</p>
                 <p className="text-sm text-foreground whitespace-pre-line leading-relaxed">
-                  {EMAIL_BODY.replace("[Your Name]", userName || "[Your Name]")}
+                  {getEmailBody(selectedRep.name)
+                    .replace("[Your Name]", userName || "[Your Name]")
+                    .replace("[Zip Code]", zipCode)}
                 </p>
               </div>
             </div>
