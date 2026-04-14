@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Loader2, Mail, MapPin, AlertCircle, CheckCircle2, Copy, Phone, Users } from "lucide-react"
+import { Loader2, MapPin, AlertCircle, CheckCircle2, Copy, Phone, Users, ExternalLink } from "lucide-react"
 
 interface Representative {
   name: string
@@ -120,13 +120,12 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
     }
   }
 
-  const openGmail = () => {
-    const { subject, body } = getPersonalizedEmail()
-    // Gmail compose URL without "to" - user will need to get email from rep's website
-    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-    window.open(gmailUrl, "_blank")
-    onEmailSent()
-    handleOpenChange(false)
+  const openContactForm = () => {
+    if (!selectedRep) return
+    // Search for the representative's official contact form
+    const searchQuery = `${selectedRep.name} ${selectedRep.office} official contact form`
+    const searchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`
+    window.open(searchUrl, "_blank")
   }
 
   const copyEmailContent = async () => {
@@ -298,7 +297,7 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
               </div>
 
               <p className="text-xs text-muted-foreground text-center">
-                Copy the message and send it via Gmail, or paste it into your representative&apos;s contact form.
+                Congress members don&apos;t have public emails. Copy the message, then find their official contact form to submit it.
               </p>
             </div>
             
@@ -320,12 +319,12 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
                 )}
               </Button>
               <Button 
-                onClick={openGmail}
+                onClick={openContactForm}
                 variant="outline"
                 className="w-full"
               >
-                <Mail className="w-4 h-4 mr-2" />
-                Open Gmail
+                <ExternalLink className="w-4 h-4 mr-2" />
+                Find Contact Form
               </Button>
               <Button 
                 variant="ghost" 
