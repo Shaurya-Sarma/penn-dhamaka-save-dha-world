@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
-import { Loader2, Mail, MapPin, AlertCircle, CheckCircle2, Copy, ExternalLink } from "lucide-react"
+import { Loader2, Mail, MapPin, AlertCircle, CheckCircle2, Copy } from "lucide-react"
 
 interface Representative {
   name: string
@@ -119,13 +119,6 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
       subject: EMAIL_SUBJECT,
       body: personalizedBody
     }
-  }
-
-  const openMailto = () => {
-    const { to, subject, body } = getPersonalizedEmail()
-    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-    onEmailSent()
-    handleOpenChange(false)
   }
 
   const openGmail = () => {
@@ -280,23 +273,13 @@ export function EmailRepDialog({ open, onOpenChange, onEmailSent }: EmailRepDial
             </div>
             
             <DialogFooter className="flex-col gap-2 sm:flex-col">
-              <div className="flex gap-2 w-full">
-                <Button 
-                  onClick={openMailto}
-                  className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/90"
-                >
-                  <Mail className="w-4 h-4 mr-2" />
-                  Email App
-                </Button>
-                <Button 
-                  onClick={openGmail}
-                  variant="outline"
-                  className="flex-1"
-                >
-                  <ExternalLink className="w-4 h-4 mr-2" />
-                  Gmail
-                </Button>
-              </div>
+              <Button 
+                onClick={openGmail}
+                className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
+              >
+                <Mail className="w-4 h-4 mr-2" />
+                Open in Gmail
+              </Button>
               <div className="flex gap-2 w-full">
                 <Button 
                   variant="outline" 
