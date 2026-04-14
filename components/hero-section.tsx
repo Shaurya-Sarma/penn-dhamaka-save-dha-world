@@ -27,11 +27,15 @@ export function HeroSection({ counters }: HeroSectionProps) {
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         {/* Title */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 text-balance">
+        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 text-balance flex items-center justify-center flex-wrap gap-3">
           <span className="text-foreground">SAVE </span>
           <span className="text-primary">DHA</span>
           <span className="text-foreground"> WORLD</span>
-          <span className="ml-3 inline-block animate-bounce">🌍</span>
+          <img 
+            src="/images/logo.png" 
+            alt="Save Dha World lion logo" 
+            className="inline-block w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 object-contain animate-pulse"
+          />
         </h1>
 
         {/* Subtitle */}
