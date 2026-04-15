@@ -198,7 +198,7 @@ export function EmailRepDialog({
                 <Button
                   onClick={lookupRepresentatives}
                   disabled={loading || zipCode.length !== 5}
-                  className="bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                  className="bg-secondary text-white hover:bg-secondary/90"
                 >
                   {loading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -271,7 +271,7 @@ export function EmailRepDialog({
               <Button
                 variant="ghost"
                 onClick={() => setStep("zip")}
-                className="w-full text-muted-foreground"
+                className="w-full"
               >
                 Back
               </Button>
@@ -344,7 +344,7 @@ export function EmailRepDialog({
             <DialogFooter className="!flex-col gap-2 pt-4">
               <Button
                 onClick={copyEmailContent}
-                className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90"
+                className="w-full bg-secondary text-white hover:bg-secondary/90"
               >
                 {copied ? (
                   <>
@@ -369,7 +369,7 @@ export function EmailRepDialog({
               <Button
                 variant="ghost"
                 onClick={() => setStep("select")}
-                className="w-full text-muted-foreground"
+                className="w-full"
               >
                 Back to Representatives
               </Button>

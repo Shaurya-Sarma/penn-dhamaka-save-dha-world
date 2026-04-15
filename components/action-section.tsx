@@ -72,13 +72,13 @@ export function ActionSection({ onAction }: ActionSectionProps) {
       />
       <section
         id="action-section"
-        className="py-16 md:py-24 px-4 bg-gradient-to-b from-background to-card/15"
+        className="py-16 md:py-24 px-4 bg-linear-to-b from-background to-card/15"
       >
         <div className="max-w-lg mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-foreground">
+          <h2 className="font-handsc text-3xl md:text-4xl font-bold text-center mb-4 text-foreground">
             1 ACTION = 1 IMPACT
           </h2>
-          <p className="text-muted-foreground text-center mb-12 text-pretty">
+          <p className="text-muted-foreground/90 font-medium text-center mb-12 text-pretty">
             Every action counts. Choose how you want to make a difference.
           </p>
 
@@ -149,15 +149,23 @@ function ActionCard({
 }) {
   const buttonStyles = {
     primary:
-      "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20",
+      "bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20",
     secondary:
-      "bg-secondary text-secondary-foreground hover:bg-secondary/90 shadow-lg shadow-secondary/20",
+      "bg-secondary text-white hover:bg-secondary/90 shadow-lg shadow-secondary/20",
     accent:
-      "bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg shadow-accent/20",
+      "bg-accent text-white hover:bg-accent/90 shadow-lg shadow-accent/20",
+  };
+
+  const cardHoverStyles = {
+    primary: "hover:border-primary/50 hover:shadow-primary/5",
+    secondary: "hover:border-secondary/50 hover:shadow-secondary/10",
+    accent: "hover:border-accent/50 hover:shadow-accent/10",
   };
 
   return (
-    <Card className="bg-card/80 border-border backdrop-blur-sm transition-all duration-300 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 group">
+    <Card
+      className={`bg-card/80 border-border backdrop-blur-sm transition-all duration-300 hover:shadow-xl group ${cardHoverStyles[variant]}`}
+    >
       <CardHeader className="pb-3">
         <div
           className={`w-14 h-14 rounded-xl ${iconBg} ${iconColor} flex items-center justify-center mb-3 transition-transform group-hover:scale-110`}
@@ -165,7 +173,7 @@ function ActionCard({
           {icon}
         </div>
         <CardTitle className="text-xl text-foreground">{title}</CardTitle>
-        <CardDescription className="text-muted-foreground leading-relaxed">
+        <CardDescription className="text-muted-foreground/90 font-medium leading-relaxed">
           {description}
         </CardDescription>
       </CardHeader>

@@ -1,44 +1,44 @@
-import type { Metadata } from 'next'
-import { Caveat } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
+import type { Metadata } from "next";
+import { Inter, Patrick_Hand_SC } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
+import "./globals.css";
 
-const caveat = Caveat({ subsets: ["latin"], variable: "--font-caveat" });
+const patrickHandSc = Patrick_Hand_SC({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-patrick-hand-sc",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
-  title: 'Save Dha World | Penn Dhamaka',
-  description: 'Turn performance into impact. Take climate action in 30 seconds.',
-  generator: 'v0.app',
+  title: "Save Dha World | Penn Dhamaka",
+  description:
+    "Turn performance into impact. Take climate action in 30 seconds.",
+  generator: "v0.app",
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: "/images/logo.png",
+    apple: "/images/logo.png",
   },
-}
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${caveat.variable} bg-background`}>
+    <html
+      lang="en"
+      className={`${patrickHandSc.variable} ${inter.variable} bg-background`}
+    >
       <body className="font-sans antialiased bg-background text-foreground">
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
-  )
+  );
 }

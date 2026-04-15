@@ -1,5 +1,5 @@
-import { ExternalLink, Heart } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { ExternalLink, Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export function Footer() {
   return (
@@ -11,14 +11,26 @@ export function Footer() {
             <div className="text-center md:text-left flex-1">
               <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
                 <Heart className="w-5 h-5 text-primary" />
-                <span className="text-xs uppercase tracking-widest font-bold text-primary">Help Us Perform</span>
+                <span className="text-xs uppercase tracking-widest font-bold text-primary">
+                  Help Us Perform
+                </span>
               </div>
-              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1">Support Penn Dhamaka's 2025-26 Season</h3>
-              <p className="text-muted-foreground text-sm md:text-base">Help us continue creating performances that inspire climate action.</p>
+              <h3 className="text-xl md:text-2xl font-bold text-foreground mb-1">
+                Support Penn Dhamaka's 2025-26 Season
+              </h3>
+              <p className="text-muted-foreground/90 font-medium text-sm md:text-base">
+                Help us continue creating performances that inspire climate
+                action.
+              </p>
             </div>
             <Button
-              onClick={() => window.open("https://www.gofundme.com/f/support-penn-dhamakas-202526-dance-season", "_blank")}
-              className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg font-semibold whitespace-nowrap"
+              onClick={() =>
+                window.open(
+                  "https://www.gofundme.com/f/support-penn-dhamakas-202526-dance-season",
+                  "_blank",
+                )
+              }
+              className="bg-primary text-white hover:bg-primary/90 shadow-lg font-semibold whitespace-nowrap"
               size="lg"
             >
               Donate Now
@@ -29,14 +41,11 @@ export function Footer() {
 
         {/* Footer Info */}
         <div className="text-center">
-          <p className="text-lg font-semibold text-foreground mb-1">
+          <p className="font-handsc text-lg font-semibold text-foreground mb-1">
             Built by <span className="text-primary">Penn Dhamaka</span>
-          </p>
-          <p className="text-sm text-muted-foreground">
-            Turning performance into impact
           </p>
         </div>
       </div>
     </footer>
-  )
+  );
 }

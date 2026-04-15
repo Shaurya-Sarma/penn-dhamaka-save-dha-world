@@ -1,39 +1,39 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { ChevronDown, TreePine, Megaphone, Share2 } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { ChevronDown, TreePine, Megaphone, Share2 } from "lucide-react";
 
 interface HeroSectionProps {
   counters: {
-    trees: number
-    messages: number
-    shares: number
-  }
+    trees: number;
+    messages: number;
+    shares: number;
+  };
 }
 
 export function HeroSection({ counters }: HeroSectionProps) {
   const scrollToActions = () => {
     document.getElementById("action-section")?.scrollIntoView({
       behavior: "smooth",
-    })
-  }
+    });
+  };
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-4 py-16 overflow-hidden">
       {/* Animated background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-secondary/5 pointer-events-none" />
+      <div className="absolute inset-0 bg-linear-to-br from-background via-background to-secondary/5 pointer-events-none" />
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/5 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 -right-32 w-96 h-96 bg-secondary/5 rounded-full blur-3xl animate-pulse delay-1000" />
 
       <div className="relative z-10 max-w-3xl mx-auto text-center">
         {/* Title */}
         <div className="flex flex-col items-center mb-6">
-          <img 
-            src="/images/logo.png" 
-            alt="Save Dha World lion logo" 
+          <img
+            src="/images/logo.png"
+            alt="Save Dha World lion logo"
             className="w-28 h-28 md:w-40 md:h-40 lg:w-48 lg:h-48 object-contain mb-4 drop-shadow-2xl"
           />
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance text-center">
+          <h1 className="font-handsc text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-balance text-center">
             <span className="text-foreground">SAVE </span>
             <span className="text-primary">DHA</span>
             <span className="text-foreground"> WORLD</span>
@@ -41,10 +41,11 @@ export function HeroSection({ counters }: HeroSectionProps) {
         </div>
 
         {/* Subtitle */}
-        <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-12 text-pretty leading-relaxed">
+        <p className="text-lg md:text-xl text-muted-foreground/90 font-medium max-w-xl mx-auto mb-12 text-pretty leading-relaxed">
           You just watched Penn Dhamaka show you how to change the world.
           <br />
-          Now help us change its future—in <span className="text-primary font-semibold">30 seconds</span>.
+          Now help us change its future—in{" "}
+          <span className="text-primary font-semibold">30 seconds</span>.
         </p>
 
         {/* Live Impact Counter */}
@@ -80,14 +81,14 @@ export function HeroSection({ counters }: HeroSectionProps) {
         <Button
           onClick={scrollToActions}
           size="lg"
-          className="text-lg px-8 py-6 rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 hover:scale-105 shadow-lg shadow-primary/25 group"
+          className="text-lg px-8 py-6 rounded-full bg-primary text-white hover:bg-primary/90 transition-all duration-300 hover:scale-105 shadow-lg shadow-primary/25 group"
         >
           Take Action
           <ChevronDown className="ml-2 w-5 h-5 group-hover:translate-y-1 transition-transform" />
         </Button>
       </div>
     </section>
-  )
+  );
 }
 
 function CounterItem({
@@ -95,17 +96,19 @@ function CounterItem({
   value,
   label,
 }: {
-  icon: React.ReactNode
-  value: number
-  label: string
+  icon: React.ReactNode;
+  value: number;
+  label: string;
 }) {
   return (
     <div className="flex flex-col items-center gap-2">
       <div className="text-primary">{icon}</div>
-      <span className="text-3xl md:text-5xl font-bold text-foreground tabular-nums">
+      <span className="font-handsc text-3xl md:text-5xl font-bold text-foreground tabular-nums">
         {value}
       </span>
-      <span className="text-xs md:text-sm text-muted-foreground">{label}</span>
+      <span className="font-handsc text-md md:text-xl lg:text-2xl font-medium text-muted-foreground/90">
+        {label}
+      </span>
     </div>
-  )
+  );
 }
