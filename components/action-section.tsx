@@ -72,7 +72,7 @@ export function ActionSection({ onAction }: ActionSectionProps) {
       />
       <section
         id="action-section"
-        className="py-16 md:py-24 px-4 bg-gradient-to-b from-background to-card/30"
+        className="py-16 md:py-24 px-4 bg-gradient-to-b from-background to-card/15"
       >
         <div className="max-w-lg mx-auto">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4 text-foreground">
@@ -86,7 +86,7 @@ export function ActionSection({ onAction }: ActionSectionProps) {
             {/* Plant a Tree Card */}
             <ActionCard
               icon={<TreePine className="w-8 h-8" />}
-              iconBg="bg-primary/10"
+              iconBg="bg-primary/5"
               iconColor="text-primary"
               title="Plant a Tree"
               description="$5 = 1 tree planted. Support real, verified reforestation projects."
@@ -99,7 +99,7 @@ export function ActionSection({ onAction }: ActionSectionProps) {
             {/* Send Message Card */}
             <ActionCard
               icon={<Megaphone className="w-8 h-8" />}
-              iconBg="bg-secondary/10"
+              iconBg="bg-secondary/5"
               iconColor="text-secondary"
               title="Turn Science into Action"
               description="Send a message to your representative in 10 seconds. 1 tap → auto-filled message → send."
@@ -111,7 +111,7 @@ export function ActionSection({ onAction }: ActionSectionProps) {
             {/* Share Card */}
             <ActionCard
               icon={<Share2 className="w-8 h-8" />}
-              iconBg="bg-accent/10"
+              iconBg="bg-accent/5"
               iconColor="text-accent"
               title="Spread the Mission"
               description="Post your impact and tag 3 friends to join the mission."
