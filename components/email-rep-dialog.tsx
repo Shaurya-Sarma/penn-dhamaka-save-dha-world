@@ -168,7 +168,7 @@ export function EmailRepDialog({
         {step === "zip" && (
           <>
             <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
+              <DialogTitle className="font-handsc text-2xl tracking-wide flex items-center gap-2">
                 <MapPin className="w-5 h-5 text-secondary" />
                 Find Your Representative
               </DialogTitle>
@@ -221,7 +221,7 @@ export function EmailRepDialog({
         {step === "select" && (
           <>
             <DialogHeader>
-              <DialogTitle>Select a Representative</DialogTitle>
+              <DialogTitle className="font-handsc text-2xl tracking-wide">Select a Representative</DialogTitle>
               <DialogDescription>
                 Choose who you&apos;d like to contact about climate action.
               </DialogDescription>
@@ -282,7 +282,7 @@ export function EmailRepDialog({
         {step === "preview" && selectedRep && (
           <>
             <DialogHeader>
-              <DialogTitle className="flex items-center gap-2">
+              <DialogTitle className="font-handsc text-2xl tracking-wide flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-primary" />
                 Ready to Send
               </DialogTitle>

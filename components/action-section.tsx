@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TreePine, Megaphone, Share2, ExternalLink } from "lucide-react";
+import { Megaphone, Share2, ExternalLink } from "lucide-react";
 import { EmailRepDialog } from "@/components/email-rep-dialog";
 
 interface ActionSectionProps {
@@ -19,10 +19,9 @@ interface ActionSectionProps {
 export function ActionSection({ onAction }: ActionSectionProps) {
   const [emailDialogOpen, setEmailDialogOpen] = useState(false);
 
-  const handlePlantTree = () => {
+  const handleDonate = () => {
     onAction("trees");
-    // Placeholder link - replace with actual donation link
-    window.open("https://onetreeplanted.org/", "_blank");
+    window.open("https://secure.actblue.com/donate/sunrise-web-2023?amount=5", "_blank");
   };
 
   const handleSendMessage = () => {
@@ -41,7 +40,6 @@ export function ActionSection({ onAction }: ActionSectionProps) {
     );
     const shareUrl = encodeURIComponent(window.location.href);
 
-    // Try native share first, fallback to Twitter
     if (navigator.share) {
       navigator
         .share({
@@ -70,110 +68,121 @@ export function ActionSection({ onAction }: ActionSectionProps) {
         onOpenChange={setEmailDialogOpen}
         onEmailSent={handleEmailSent}
       />
+
+      {/* Neon horizontal rule — like a TV channel separator */}
+      <div className="w-full h-px bg-primary/40 shadow-[0_0_8px_oklch(0.82_0.18_195_/_0.6)]" />
+
       <section
         id="action-section"
-        className="py-16 md:py-24 px-4 bg-linear-to-b from-background to-card/15"
+        className="py-16 md:py-24 px-4 bg-background scanlines"
       >
         <div className="max-w-lg mx-auto">
-          <h2 className="font-handsc text-3xl md:text-4xl font-bold text-center mb-4 text-foreground">
-            1 ACTION = 1 IMPACT
-          </h2>
-          <p className="text-muted-foreground/90 font-medium text-center mb-12 text-pretty">
-            Every action counts. Choose how you want to make a difference.
-          </p>
+          <div className="text-center mb-12">
+            {/* Section label — like a VHS menu */}
+            <p className="font-handsc text-xl tracking-widest text-primary neon-text mb-2 uppercase">
+              ▶ SELECT AN ACTION
+            </p>
+            <h2 className="font-handsc text-4xl md:text-5xl text-foreground tracking-wide glitch-title mb-4">
+              1 ACTION = 1 IMPACT
+            </h2>
+            <div className="w-full h-px bg-border" />
+          </div>
 
           <div className="flex flex-col gap-6">
-            {/* Plant a Tree Card */}
             <ActionCard
-              icon={<TreePine className="w-8 h-8" />}
-              iconBg="bg-primary/5"
+              icon={
+                <img
+                  src="/images/sunrise-logo.png"
+                  alt="Sunrise Movement"
+                  className="w-12 h-12 rounded-full object-cover"
+                  style={{ filter: "drop-shadow(0 0 6px oklch(0.82 0.18 195 / 0.7))" }}
+                />
+              }
               iconColor="text-primary"
-              title="Plant a Tree"
-              description="$5 = 1 tree planted. Support real, verified reforestation projects."
-              buttonText="Plant a Tree"
+              glowClass="neon-text"
+              accentBorderClass="border-l-primary"
+              accentGlowStyle={{ boxShadow: "inset 3px 0 0 oklch(0.82 0.18 195 / 0.8), 0 0 20px oklch(0.82 0.18 195 / 0.08)" }}
+              title="Donate to Sunrise"
+              description="Sunrise is building political power to stop climate change. $5 helps win a Green New Deal."
+              buttonText="▶ Donate Now"
               buttonIcon={<ExternalLink className="w-4 h-4" />}
-              onClick={handlePlantTree}
-              variant="primary"
+              onClick={handleDonate}
+              buttonClass="bg-primary text-primary-foreground hover:bg-primary/90 border border-primary/40 neon-box"
             />
 
-            {/* Send Message Card */}
             <ActionCard
-              icon={<Megaphone className="w-8 h-8" />}
-              iconBg="bg-secondary/5"
+              icon={<Megaphone className="w-7 h-7" />}
               iconColor="text-secondary"
+              glowClass="neon-text-magenta"
+              accentBorderClass="border-l-secondary"
+              accentGlowStyle={{ boxShadow: "inset 3px 0 0 oklch(0.75 0.22 45 / 0.8), 0 0 20px oklch(0.75 0.22 45 / 0.08)" }}
               title="Turn Science into Action"
               description="Send a message to your representative in 10 seconds. 1 tap → auto-filled message → send."
-              buttonText="Make Your Voice Heard"
+              buttonText="▶ Make Your Voice Heard"
               onClick={handleSendMessage}
-              variant="secondary"
+              buttonClass="bg-secondary text-secondary-foreground hover:bg-secondary/90 border border-secondary/40 shadow-[0_0_12px_oklch(0.75_0.22_45_/_0.4)]"
             />
 
-            {/* Share Card */}
             <ActionCard
-              icon={<Share2 className="w-8 h-8" />}
-              iconBg="bg-accent/5"
+              icon={<Share2 className="w-7 h-7" />}
               iconColor="text-accent"
+              glowClass=""
+              accentBorderClass="border-l-accent"
+              accentGlowStyle={{ boxShadow: "inset 3px 0 0 oklch(0.83 0.22 135 / 0.8), 0 0 20px oklch(0.83 0.22 135 / 0.08)" }}
               title="Spread the Mission"
               description="Post your impact and tag 3 friends to join the mission."
-              buttonText="Share Now"
+              buttonText="▶ Share Now"
               onClick={handleShare}
-              variant="accent"
+              buttonClass="bg-accent text-accent-foreground hover:bg-accent/90 border border-accent/40 shadow-[0_0_12px_oklch(0.83_0.22_135_/_0.4)]"
             />
           </div>
         </div>
       </section>
+
+      {/* Bottom neon rule */}
+      <div className="w-full h-px bg-primary/40 shadow-[0_0_8px_oklch(0.82_0.18_195_/_0.6)]" />
     </>
   );
 }
 
 function ActionCard({
   icon,
-  iconBg,
   iconColor,
+  glowClass,
+  accentBorderClass,
+  accentGlowStyle,
   title,
   description,
   buttonText,
   buttonIcon,
   onClick,
-  variant,
+  buttonClass,
 }: {
   icon: React.ReactNode;
-  iconBg: string;
   iconColor: string;
+  glowClass: string;
+  accentBorderClass: string;
+  accentGlowStyle: React.CSSProperties;
   title: string;
   description: string;
   buttonText: string;
   buttonIcon?: React.ReactNode;
   onClick: () => void;
-  variant: "primary" | "secondary" | "accent";
+  buttonClass: string;
 }) {
-  const buttonStyles = {
-    primary:
-      "bg-primary text-white hover:bg-primary/90 shadow-lg shadow-primary/20",
-    secondary:
-      "bg-secondary text-white hover:bg-secondary/90 shadow-lg shadow-secondary/20",
-    accent:
-      "bg-accent text-white hover:bg-accent/90 shadow-lg shadow-accent/20",
-  };
-
-  const cardHoverStyles = {
-    primary: "hover:border-primary/50 hover:shadow-primary/5",
-    secondary: "hover:border-secondary/50 hover:shadow-secondary/10",
-    accent: "hover:border-accent/50 hover:shadow-accent/10",
-  };
-
   return (
     <Card
-      className={`bg-card/80 border-border backdrop-blur-sm transition-all duration-300 hover:shadow-xl group ${cardHoverStyles[variant]}`}
+      className={`bg-card border border-border border-l-4 ${accentBorderClass} rounded-sm transition-all duration-200 hover:-translate-y-0.5 group`}
+      style={accentGlowStyle}
     >
       <CardHeader className="pb-3">
-        <div
-          className={`w-14 h-14 rounded-xl ${iconBg} ${iconColor} flex items-center justify-center mb-3 transition-transform group-hover:scale-110`}
-        >
+        <div className={`${iconColor} ${glowClass} mb-2 transition-transform group-hover:scale-110 w-fit`}>
           {icon}
         </div>
-        <CardTitle className="text-xl text-foreground">{title}</CardTitle>
-        <CardDescription className="text-muted-foreground/90 font-medium leading-relaxed">
+        <CardTitle className="font-handsc text-2xl text-foreground tracking-wide">
+          {title}
+        </CardTitle>
+        <CardDescription className="text-muted-foreground font-medium leading-relaxed">
           {description}
         </CardDescription>
       </CardHeader>
@@ -181,7 +190,7 @@ function ActionCard({
         <Button
           onClick={onClick}
           size="lg"
-          className={`w-full text-base py-6 rounded-xl transition-all duration-300 hover:scale-[1.02] ${buttonStyles[variant]}`}
+          className={`w-full font-handsc text-xl tracking-widest py-6 rounded-sm transition-all duration-200 hover:scale-[1.02] ${buttonClass}`}
         >
           {buttonText}
           {buttonIcon && <span className="ml-2">{buttonIcon}</span>}
