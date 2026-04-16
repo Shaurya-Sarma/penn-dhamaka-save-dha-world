@@ -83,7 +83,10 @@ export function ActionSection({ onAction }: ActionSectionProps) {
               ▶ SELECT AN ACTION
             </p>
             <h2 className="font-handsc text-4xl md:text-5xl text-foreground tracking-wide glitch-title mb-4">
-              1 ACTION = 1 IMPACT
+              1 ACTION = ∞<span style={{ marginLeft: "0.2em" }}>IMPACT</span>
+         
+         
+         
             </h2>
             <div className="w-full h-px bg-border" />
           </div>

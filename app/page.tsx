@@ -3,7 +3,8 @@
 import useSWR from "swr"
 import { HeroSection } from "@/components/hero-section"
 import { ActionSection } from "@/components/action-section"
-import { Footer } from "@/components/footer"
+import { DonationBanner, Footer } from "@/components/footer"
+import { PennResearchSection } from "@/components/penn-research-section"
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json())
 
@@ -37,6 +38,8 @@ export default function SaveDhaWorldPage() {
     <main className="min-h-screen bg-background">
       <HeroSection counters={counters} />
       <ActionSection onAction={incrementCounter} />
+      <DonationBanner />
+      <PennResearchSection />
       <Footer />
     </main>
   )
