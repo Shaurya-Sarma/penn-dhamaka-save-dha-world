@@ -41,14 +41,14 @@ export function HeroSection({ counters }: HeroSectionProps) {
       {/* VHS timestamp — bottom right */}
       <div className="absolute bottom-20 right-5 z-20 select-none">
         <span className="font-handsc text-primary/50 text-2xl tracking-widest">
-          00:00:01
+          9:40:53
         </span>
       </div>
 
       {/* CHANNEL badge — bottom left */}
       <div className="absolute bottom-20 left-5 z-20 select-none">
         <span className="font-handsc text-muted-foreground text-xl tracking-widest">
-          CH&nbsp;13
+          CH&nbsp;25
         </span>
       </div>
 
