@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Inter, Patrick_Hand_SC } from "next/font/google";
+import { Inter, VT323 } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-const patrickHandSc = Patrick_Hand_SC({
+const vt323 = VT323({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-patrick-hand-sc",
+  variable: "--font-vt323",
 });
 
 const inter = Inter({
@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${patrickHandSc.variable} ${inter.variable} bg-background`}
+      className={`${vt323.variable} ${inter.variable} bg-background`}
     >
       <body className="font-sans antialiased bg-background text-foreground">
         {children}
