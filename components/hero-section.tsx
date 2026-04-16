@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ChevronDown, TreePine, Megaphone, Share2 } from "lucide-react";
+import { ChevronDown, Megaphone, Share2 } from "lucide-react";
 
 interface HeroSectionProps {
   counters: {
@@ -62,10 +62,10 @@ export function HeroSection({ counters }: HeroSectionProps) {
             style={{ filter: "drop-shadow(0 0 14px oklch(0.82 0.18 195 / 0.7)) drop-shadow(0 0 30px oklch(0.82 0.18 195 / 0.3))" }}
           />
           {/* Title with chromatic aberration glitch */}
-          <h1 className="font-handsc text-5xl md:text-7xl lg:text-8xl tracking-wide text-balance text-center glitch-title leading-tight">
-            <span className="text-foreground">SAVE </span>
-            <span className="text-primary neon-text">DHA</span>
-            <span className="text-foreground"> WORLD</span>
+          <h1 className="font-handsc text-5xl md:text-7xl lg:text-8xl tracking-wide text-balance text-center leading-tight">
+            <span className="text-primary neon-text">SAVE </span>
+            <span className="text-secondary neon-text-magenta">DHA</span>
+            <span className="text-accent"> WORLD</span>
           </h1>
         </div>
 
@@ -101,9 +101,15 @@ export function HeroSection({ counters }: HeroSectionProps) {
           {/* Counter grid */}
           <div className="relative grid grid-cols-3 gap-4 md:gap-8 p-6 md:p-8 bg-card">
             <CounterItem
-              icon={<TreePine className="w-5 h-5 md:w-6 md:h-6" />}
+              icon={
+                <img
+                  src="/images/sunrise-logo.png"
+                  alt="Sunrise"
+                  className="w-5 h-5 md:w-6 md:h-6 rounded-full object-cover"
+                />
+              }
               value={counters.trees}
-              label="trees planted"
+              label="donations"
               color="text-primary"
               glowClass="neon-text"
             />

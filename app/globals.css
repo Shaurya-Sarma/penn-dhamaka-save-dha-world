@@ -14,8 +14,8 @@
   /* Primary — neon cyan (phosphor screen glow) */
   --primary: oklch(0.82 0.18 195);
   --primary-foreground: oklch(0.10 0.02 250);
-  /* Secondary — neon magenta (VHS color bleed) */
-  --secondary: oklch(0.65 0.28 330);
+  /* Secondary — neon orange */
+  --secondary: oklch(0.75 0.22 45);
   --secondary-foreground: oklch(0.10 0.02 250);
   --muted: oklch(0.20 0.03 250);
   --muted-foreground: oklch(0.62 0.04 250);
@@ -52,7 +52,7 @@
   --popover-foreground: oklch(0.95 0 0);
   --primary: oklch(0.82 0.18 195);
   --primary-foreground: oklch(0.10 0.02 250);
-  --secondary: oklch(0.65 0.28 330);
+  --secondary: oklch(0.75 0.22 45);
   --secondary-foreground: oklch(0.10 0.02 250);
   --muted: oklch(0.20 0.03 250);
   --muted-foreground: oklch(0.62 0.04 250);
@@ -171,17 +171,17 @@
       0 0 30px oklch(0.82 0.18 195 / 0.3);
   }
 
-  /* Neon text glow — magenta */
+  /* Neon text glow — orange */
   .neon-text-magenta {
     text-shadow:
-      0 0 6px oklch(0.65 0.28 330 / 0.9),
-      0 0 14px oklch(0.65 0.28 330 / 0.6);
+      0 0 6px oklch(0.75 0.22 45 / 0.9),
+      0 0 14px oklch(0.75 0.22 45 / 0.6);
   }
 
   /* Chromatic aberration / VHS color bleed on title */
   .glitch-title {
     text-shadow:
-      -2px 0 oklch(0.65 0.28 330 / 0.7),
+      -2px 0 oklch(0.75 0.22 45 / 0.7),
        2px 0 oklch(0.82 0.18 195 / 0.7);
   }
 

@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { TreePine, Megaphone, Share2, ExternalLink } from "lucide-react";
+import { Megaphone, Share2, ExternalLink } from "lucide-react";
 import { EmailRepDialog } from "@/components/email-rep-dialog";
 
 interface ActionSectionProps {
@@ -19,9 +19,9 @@ interface ActionSectionProps {
 export function ActionSection({ onAction }: ActionSectionProps) {
   const [emailDialogOpen, setEmailDialogOpen] = useState(false);
 
-  const handlePlantTree = () => {
+  const handleDonate = () => {
     onAction("trees");
-    window.open("https://onetreeplanted.org/", "_blank");
+    window.open("https://secure.actblue.com/donate/sunrise-web-2023?amount=5", "_blank");
   };
 
   const handleSendMessage = () => {
@@ -90,16 +90,23 @@ export function ActionSection({ onAction }: ActionSectionProps) {
 
           <div className="flex flex-col gap-6">
             <ActionCard
-              icon={<TreePine className="w-7 h-7" />}
+              icon={
+                <img
+                  src="/images/sunrise-logo.png"
+                  alt="Sunrise Movement"
+                  className="w-12 h-12 rounded-full object-cover"
+                  style={{ filter: "drop-shadow(0 0 6px oklch(0.82 0.18 195 / 0.7))" }}
+                />
+              }
               iconColor="text-primary"
               glowClass="neon-text"
               accentBorderClass="border-l-primary"
               accentGlowStyle={{ boxShadow: "inset 3px 0 0 oklch(0.82 0.18 195 / 0.8), 0 0 20px oklch(0.82 0.18 195 / 0.08)" }}
-              title="Plant a Tree"
-              description="$5 = 1 tree planted. Support real, verified reforestation projects."
-              buttonText="▶ Plant a Tree"
+              title="Donate to Sunrise"
+              description="Sunrise is building political power to stop climate change. $5 helps win a Green New Deal."
+              buttonText="▶ Donate Now"
               buttonIcon={<ExternalLink className="w-4 h-4" />}
-              onClick={handlePlantTree}
+              onClick={handleDonate}
               buttonClass="bg-primary text-primary-foreground hover:bg-primary/90 border border-primary/40 neon-box"
             />
 
@@ -108,12 +115,12 @@ export function ActionSection({ onAction }: ActionSectionProps) {
               iconColor="text-secondary"
               glowClass="neon-text-magenta"
               accentBorderClass="border-l-secondary"
-              accentGlowStyle={{ boxShadow: "inset 3px 0 0 oklch(0.65 0.28 330 / 0.8), 0 0 20px oklch(0.65 0.28 330 / 0.08)" }}
+              accentGlowStyle={{ boxShadow: "inset 3px 0 0 oklch(0.75 0.22 45 / 0.8), 0 0 20px oklch(0.75 0.22 45 / 0.08)" }}
               title="Turn Science into Action"
               description="Send a message to your representative in 10 seconds. 1 tap → auto-filled message → send."
               buttonText="▶ Make Your Voice Heard"
               onClick={handleSendMessage}
-              buttonClass="bg-secondary text-secondary-foreground hover:bg-secondary/90 border border-secondary/40 shadow-[0_0_12px_oklch(0.65_0.28_330_/_0.4)]"
+              buttonClass="bg-secondary text-secondary-foreground hover:bg-secondary/90 border border-secondary/40 shadow-[0_0_12px_oklch(0.75_0.22_45_/_0.4)]"
             />
 
             <ActionCard
